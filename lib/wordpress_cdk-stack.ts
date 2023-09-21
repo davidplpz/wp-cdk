@@ -66,6 +66,15 @@ export class WordpressCdkStack extends cdk.Stack {
       keyName: process.env.EC2_KEY,
     });
 
+    const eip = new ec2.CfnEIP(this, "Server IP", {
+      instanceId: ec2Instance.instanceId,
+    });
+
+    new ec2.CfnEIPAssociation(this, "ElasticIpAssociation", {
+      eip: eip.ref,
+      instanceId: ec2Instance.instanceId,
+    });
+
     //TODO - Crear las claves para el acceso SSH
 
     //TODO - Generar script para montar el tinglado
