@@ -66,11 +66,11 @@ export class WordpressCdkStack extends cdk.Stack {
       keyName: process.env.EC2_KEY,
     });
 
-    const eip = new ec2.CfnEIP(this, "Server IP", {
+    const eip = new ec2.CfnEIP(this, process.env.SERVER_IP_NAME, {
       instanceId: ec2Instance.instanceId,
     });
 
-    new ec2.CfnEIPAssociation(this, "ElasticIpAssociation", {
+    new ec2.CfnEIPAssociation(this, process.env.ELASTICA_IP_NAME, {
       eip: eip.ref,
       instanceId: ec2Instance.instanceId,
     });
