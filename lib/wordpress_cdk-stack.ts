@@ -52,6 +52,16 @@ export class WordpressCdkStack extends cdk.Stack {
       "eu-west-1": "ami-0694d931cee176e7d",
     });
 
+    const keyProps: ec2.CfnKeyPairProps = {
+      keyName: process.env.EC2_KEY || "key",
+      publicKeyMaterial: "publicKeyMaterial",
+    };
+    const keypair = new ec2.CfnKeyPair(
+      this,
+      process.env.EC2_KEY || "Key Pair",
+      keyProps
+    );
+
     const ec2Instance = new ec2.Instance(
       this,
       process.env.EC2_NAME || "Ec2Instance",
@@ -65,7 +75,7 @@ export class WordpressCdkStack extends cdk.Stack {
           ec2.InstanceSize.MICRO
         ),
         machineImage: image,
-        keyName: process.env.EC2_KEY,
+        keyName: keypair.keyName,
       }
     );
 
