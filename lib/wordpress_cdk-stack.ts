@@ -48,6 +48,10 @@ export class WordpressCdkStack extends cdk.Stack {
       "Allows HTTPS access from Internet"
     );
 
+    const image = ec2.MachineImage.genericLinux({
+      "eu-west-1": "ami-0694d931cee176e7d",
+    });
+
     const ec2Instance = new ec2.Instance(
       this,
       process.env.EC2_NAME || "Ec2Instance",
@@ -60,9 +64,7 @@ export class WordpressCdkStack extends cdk.Stack {
           ec2.InstanceClass.T2,
           ec2.InstanceSize.MICRO
         ),
-        machineImage: ec2.MachineImage.latestAmazonLinux({
-          generation: ec2.AmazonLinuxGeneration.AMAZON_LINUX_2,
-        }),
+        machineImage: image,
         keyName: process.env.EC2_KEY,
       }
     );
